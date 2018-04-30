@@ -1,4 +1,4 @@
-# CodeStarter
+# Capable
 
 一套基于`koa`的Web业务层`mvc`框架，让Web开发变得更便捷，更灵活，更高效
 
