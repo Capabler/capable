@@ -18,7 +18,9 @@ npm install
 npm start
 ```
 
-直接访问`http://localhost:3000/`,首页实现了一个增删改查的demo
+直接访问`http://localhost:3000/`
+
+更多demo，访问[地址](https://github.com/capabler)
 
 ### 数据库引擎
 
