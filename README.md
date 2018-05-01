@@ -2,7 +2,7 @@
 
 一套基于`koa`的Web业务层`mvc`框架，让Web开发变得更便捷，更灵活，更高效
 
-## Setup
+### Setup
 ```
 npm install supervisor -g
 
@@ -13,6 +13,8 @@ npm start
 
 访问 `http://localhost:3000/` [more>](https://github.com/capabler)
 
-## License
+### [Download](https://github.com/capabler/capable/archive/0.0.1.zip)
+
+### License
 
 MIT
