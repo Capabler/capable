@@ -35,7 +35,7 @@ module.exports = function fileDisplay(router, filePath = controllerPath) {
 							} else {
 								var isFile = stats.isFile();//是文件  
 								var isDir = stats.isDirectory();//是文件夹  
-								if (isFile) {
+								if (isFile && !/\.delicatejs$/.test(filedir)) {
 									//控制器的js文件名称
 									const routeDir = filedir.replace(controllerPath, '').replace(/\.js$/,'')
 									const Controller = require(filedir)
