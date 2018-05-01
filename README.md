@@ -4,9 +4,11 @@
 
 ### Setup
 ```
+npm install supervisor -g
+
 git clone https://github.com/capabler/capable.git
 
-npm install supervisor -g
+cd capable
 
 npm install
 
