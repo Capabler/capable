@@ -4,6 +4,8 @@
 
 ### Setup
 ```
+git clone https://github.com/capabler/capable.git
+
 npm install supervisor -g
 
 npm install
