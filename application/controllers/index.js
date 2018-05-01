@@ -1,5 +1,5 @@
 module.exports = class extends MY_Controller { 	
-	async index() {		
+	async index() {				
 		await this.view('index')		
 	}
 }
