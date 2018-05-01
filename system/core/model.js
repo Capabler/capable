@@ -5,7 +5,7 @@ const { subclass_prefix, database_engine } = require(path.join(global.applicatio
 
 module.exports = app => {
 
-	global.CA_Model = class {
+	global.DJ_Model = class {
 		constructor(ctx) {
 			this.ctx = ctx
 			this.load = new Loader(app, ctx)			

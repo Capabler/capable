@@ -16,7 +16,7 @@ module.exports = app => {
 	global.emitter = new events.EventEmitter()
 	global.setcookie = Function
 
-	global.CA_Controller = class {
+	global.DJ_Controller = class {
 
 		constructor(ctx) {
 			this.ctx = ctx

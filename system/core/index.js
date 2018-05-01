@@ -11,7 +11,7 @@ const app = new Koa()
 const router = new Router()
 
 // 全局注册公共方法
-require('./capable')(app)
+require('./delicatejs')(app)
 require('./model')(app)
 
 /**

@@ -14,7 +14,7 @@ module.exports = {
 	 * 控制器自动挂载MY_Controller.js文件
    * 模块自动挂载MY_Model.js文件
 	 * 那么我们在controllers中定义类时，可以继承MY_Controller
-	 * 而MY_Controller继承的是CA_Controller，所以可以做一些通用的业务处理
+	 * 而MY_Controller继承的是DJ_Controller，所以可以做一些通用的业务处理
 	 */
 	subclass_prefix: 'MY_',
 

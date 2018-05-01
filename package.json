@@ -1,5 +1,5 @@
 {
-  "name": "capable",
+  "name": "delicatejs",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:capabler/capable.git"
+    "url": "git@github.com:delicatejs/delicatejs.git"
   },
   "author": "",
   "license": "ISC",
