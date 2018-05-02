@@ -34,7 +34,7 @@ module.exports = app => {
 
 		async view(template, data = {}) {
 			global.emitter.removeAllListeners()
-			const ext = templates[template_engine].ext
+			const ext = templates[this.template_engine || template_engine].ext
 			const tpl = path.join(global.application, 'views', template + '.' + ext)
 			if (fs.existsSync(tpl)) {
 				this.ctx.set('X-Template-Engine', this.template_engine || template_engine)				

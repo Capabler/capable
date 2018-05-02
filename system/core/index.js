@@ -83,16 +83,6 @@ app.use(session({
 templates[template_engine].render(app);
 
 /**
- * 如果选择react模板，需要添加该配置，否则无法进行模板的解析
- */
-if (template_engine === 'react') { 
-	require('babel-register')({
-  	presets: [ "es2015", "react"],
-  	extensions: [ '.jsx' ],
-	});
-}
-
-/**
  * 静态资源访问权限
  */
 app.use(staticServer(static));

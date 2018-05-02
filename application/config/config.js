@@ -46,9 +46,13 @@ module.exports = {
 	templates: {
 		react: {
 			render(app) {
+				require('babel-register')({
+					presets: [ "es2015", "react"],
+					extensions: [ '.jsx' ],
+				});
 				reactView(app, {
 					views: path.join(global.application, 'views'),
-				})
+				});
 			},	
 			ext:'jsx'
 		},
@@ -60,7 +64,7 @@ module.exports = {
 					viewExt: 'ejs',
 					cache: false,
 					debug: false
-				})
+				});
 			},
 			ext: 'ejs'
 		}
