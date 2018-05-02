@@ -17,6 +17,10 @@ npm start
 
 访问 `http://localhost:3000/` [more>](https://github.com/delicatejs)
 
+### Deployment
+
+使用 [pm2](https://github.com/Unitech/pm2) 进行项目的部署服务
+
 ### [Download](https://github.com/delicatejs/delicatejs/archive/0.0.1.zip)
 
 ### License
