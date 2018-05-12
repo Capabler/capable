@@ -2,9 +2,17 @@
  * 使用lokijs引擎
  */
 const loki = require('lokijs')
+const fs = require('fs')
+const path = require('path')
 
 module.exports = class {
 	constructor(config) { 
+		let dir = config.db.split('/')
+		dir.pop()
+		dir = dir.join('/')
+		if (!fs.existsSync(path.join(process.cwd(), dir))) { 
+			fs.mkdirSync(dir)
+		}
 		this.db = new loki(config.db || 'db.json')
 		process.on('SIGINT', () => {
 			this.db.close()
