@@ -16,6 +16,8 @@ module.exports = app => {
 	global.emitter = new events.EventEmitter()
 	global.setcookie = Function
 
+	let _MethodNotAllowedCallback = null
+
 	global.DJ_Controller = class {
 
 		constructor(ctx) {
@@ -48,6 +50,25 @@ module.exports = app => {
 				this.template_engine = engine
 			})
 			
+			this.judgeMethod()
+		}
+
+		MethodNotAllowed(cb = null) { 
+			_MethodNotAllowedCallback = cb
+		}
+
+		//请求方式的判断
+		judgeMethod() {
+			this.method = {};				
+			['get', 'post', 'delete', 'head', 'options', 'put', 'patch'].map(method => {
+				this.method[method] = async (cb) => {
+					if (this.ctx.request.method === method.toLocaleUpperCase()) {
+						await cb();
+					} else {
+						_MethodNotAllowedCallback && _MethodNotAllowedCallback();
+					}
+				}
+			});			
 		}
 
 		async view(template, data = {}) {

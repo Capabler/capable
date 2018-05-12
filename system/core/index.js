@@ -93,7 +93,6 @@ app.use(staticServer(static));
 module.exports = () => {
 	require('./controller')(router)		
 	app.use(router.routes())
-	app.use(router.allowedMethods())
 	app.listen(port)	
 	console.log('> http://localhost:' + port)
 }
