@@ -68,5 +68,14 @@ module.exports = {
 			},
 			ext: 'ejs'
 		}
-	}
+	},
+
+	/**
+	 * 加载一些model全局使用，不需要每次都去this.load.model()
+	 * 接受多个model的加载，数组形式
+	 * 内容和this.load.model的传值的信息一致，都是models文件夹下的文件的名称，不包括后缀
+	 * 例如：
+	 * models:['book_model','user_model']
+	 */
+	models: ['book_model']	
 }
