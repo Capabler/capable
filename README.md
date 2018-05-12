@@ -58,6 +58,10 @@ module.exports = class extends MY_Controller{
 }
 ```
 
+### More
+
+更多使用姿势，请参考[example](https://github.com/delicatejs/delicatejs-example)
+
 ### License
 
 MIT
