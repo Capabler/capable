@@ -77,5 +77,5 @@ module.exports = {
 	 * 例如：
 	 * models:['book_model','user_model']
 	 */
-	models: ['book_model']	
+	models: []	
 }
