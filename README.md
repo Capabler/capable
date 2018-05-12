@@ -17,6 +17,12 @@ npm start
 
 访问 `http://localhost:3000/` [more>](https://github.com/delicatejs)
 
+### Update
+
+如果核心代码进行重大更新，主要是`system`文件夹更新了
+
+无需重新克隆文件拷贝，只需要在项目根目录下执行`delicate update`即可完成更新
+
 ### Deployment
 
 使用 [pm2](https://github.com/Unitech/pm2) 进行项目的部署服务
