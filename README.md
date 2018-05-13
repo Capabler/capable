@@ -73,7 +73,7 @@ module.exports = class extends MY_Controller{
     });
 
     //编写业务代码 
-    //更多查看最佳实践delicate-example    
+    //更多查看最佳实践delicatejs-example    
   }
 }
 ```
