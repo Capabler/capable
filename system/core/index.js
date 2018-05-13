@@ -88,6 +88,19 @@ templates[template_engine].render(app);
 app.use(staticServer(static));
 
 /**
+ * 路由未匹配到捕获
+ */
+app.use(async (ctx, next) => { 
+	try {
+		await next()
+	} catch (error) {
+		if (error !== 'method not allowed') { 
+			throw error
+		}
+	}
+})
+
+/**
  * 启动服务器
  */
 module.exports = () => {

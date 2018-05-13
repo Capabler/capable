@@ -49,11 +49,31 @@ module.exports = class extends DJ_Controller{
 //目前支持请求方式 'get', 'post', 'delete', 'head', 'options', 'put', 'patch'
 module.exports = class extends MY_Controller{
   async delete(){
-    await this.method.delete(async ()=>{
-      //编写业务代码
-      //如果请求方式不是delete，会执行this.MethodNotAllowed的回调方法
-      //如果不指定method，也可以直接写业务，但是这个会任何请求方式都会命中该路由      
-    })
+    /*
+     * 指定当前接受的请求方式
+     * 如果请求方式不是delete，会执行this.MethodNotAllowed的回调方法
+     * 如果不指定method，也可以直接写业务，但是这个会任何请求方式都会命中该路由  
+     */
+
+    //指定单个请求方式
+    await this.method.delete()
+    
+    //指定多个请求方式
+    await this.method('delete','post')
+    
+    //指定不同的请求方式的业务代码
+    //必须要先指定所有可能的请求方式
+    //await this.method('post', 'delete')
+    this.method.post( async () => {
+      //post请求方式的业务代码
+    });
+
+    this.method.delete( async()=>{
+      //delete请求方式的业务代码
+    });
+
+    //编写业务代码 
+    //更多查看最佳实践delicate-example    
   }
 }
 ```

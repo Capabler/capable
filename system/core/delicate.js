@@ -59,16 +59,43 @@ module.exports = app => {
 
 		//请求方式的判断
 		judgeMethod() {
-			this.method = {};				
-			['get', 'post', 'delete', 'head', 'options', 'put', 'patch'].map(method => {
-				this.method[method] = async (cb) => {
-					if (this.ctx.request.method === method.toLocaleUpperCase()) {
-						await cb();
-					} else {
-						_MethodNotAllowedCallback && _MethodNotAllowedCallback();
+			let methods = [];
+
+			//一个接口适应多个请求方式
+			this.method = async function () {
+				methods = Object.values(arguments)
+				if (methods.length < 2) { 
+					if (methods.length) {
+						throw { message: `this.method的方法至少接受两个参数，请使用this.method.${methods[0]}()` }
+					} else { 
+						throw { message: `this.method的参数不能为空` }
 					}
 				}
-			});			
+				if (methods.indexOf(this.ctx.request.method.toLocaleLowerCase()) === -1) {
+					if (_MethodNotAllowedCallback) {
+						await _MethodNotAllowedCallback()
+					}
+					throw 'method not allowed'
+				}
+			};
+
+			//可以执行回调
+			['get', 'post', 'delete', 'head', 'options', 'put', 'patch'].map(method => {
+				this.method[method] = async (cb = null) => {					
+					if (this.ctx.request.method === method.toLocaleUpperCase()) {
+						if (cb) {
+							await cb();
+						}	
+					} else {
+						if (methods.indexOf(method) === -1) {
+							if (_MethodNotAllowedCallback) {
+								await _MethodNotAllowedCallback()
+							}	
+							throw 'method not allowed'
+						}
+					}
+				}
+			});
 		}
 
 		async view(template, data = {}) {
