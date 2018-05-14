@@ -2,6 +2,8 @@
 
 一套基于`koa`的Web业务层`mvc`框架，让Web开发变得更便捷，更灵活，更高效
 
+💀 `system`文件夹不能进行自定义修改，如果有需求更新，请提issue 
+
 ### Setup
 ```
 npm install supervisor delicate-cli -g
@@ -19,9 +21,7 @@ npm start
 
 ### Update
 
-如果核心代码进行重大更新，主要是`system`文件夹更新了
-
-无需重新克隆文件拷贝，只需要在项目根目录下执行`delicate update`即可完成更新
+在项目根目录下执行`delicate update`即可完成更新
 
 ### Deployment
 
