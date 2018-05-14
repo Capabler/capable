@@ -103,10 +103,10 @@ module.exports = app => {
 			const ext = templates[this.template_engine || template_engine].ext
 			const tpl = path.join(global.application, 'views', template + '.' + ext)
 			if (fs.existsSync(tpl)) {
-				this.ctx.set('X-Template-Engine', this.template_engine || template_engine)				
+				this.ctx.set('X-Template-Engine', this.template_engine || template_engine)
 				await this.ctx.render(template, data)
 				//如果改变了模板，恢复当前默认模板引擎
-				if (this.template_engine) { 
+				if (this.template_engine) {
 					this.template_engine = null
 					app.context.render = null
 					templates[template_engine].render(app)
@@ -116,20 +116,9 @@ module.exports = app => {
 			}
 		}
 
-		async send(data) {
-			global.emitter.removeAllListeners()
-			this.ctx.body = data
-		}
-
 		async redirect() {
 			global.emitter.removeAllListeners()
 			this.ctx.redirect.apply(this.ctx, arguments)
-		}
-
-		async json(data) { 
-			global.emitter.removeAllListeners()
-			this.ctx.set('Content-Type', 'text/json')		
-			this.ctx.body = data
 		}
 	}
 

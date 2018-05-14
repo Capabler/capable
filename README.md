@@ -31,6 +31,27 @@ npm start
 
 ### 更新日志
 
+- 服务端返回形式
+  - 正常返回
+  ```js
+  //例如返回json格式的数据
+  this.ctx.set('Content-Type', 'text/json')	
+  this.ctx.body = {}
+  ```
+
+  - 模板返回
+  ```js
+  //指定模板的路径和模板需要渲染的数据[数组]
+  this.view(templatePath,templateData)  
+  ```
+
+  - 重定向
+  ```js
+  //重定向到路由为'/'的页面
+  this.redirect('/')
+  ```
+
+
 - 请求方式检测
 
 ```js

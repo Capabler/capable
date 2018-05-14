@@ -21,6 +21,7 @@ require('./model')(app)
  */
 app.use(async(ctx, next) => {
 	try {
+		//初始化数据信息
 		const cookieHeader = ctx.headers.cookie;
 		let cookie = {}
 		if (cookieHeader) {
@@ -35,17 +36,13 @@ app.use(async(ctx, next) => {
 		};
 		global.$_COOKIE = cookie;
 		global.$_SESSION = ctx.session;		
-		await next();			
-	} catch (err) {
-		
-		// if(err.status != 401 || err.status != 403){
-		// 		if(useFileLogger()){
-		// 			errorLogger.error(err)
-		// 		}else{
-		// 			console.log(err)
-		// 		}
-		// }
 
+		//执行核心操作
+		await next();	
+		
+		//清除预置参数
+		global.emitter.removeAllListeners()
+	} catch (err) {
 		ctx.status = err.status || err.code || 500;
 		ctx.body = {
 				ret: -1,
