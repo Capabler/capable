@@ -1,0 +1,15 @@
+{
+  "name": "example",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "supervisor node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:delicatejs/delicate.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

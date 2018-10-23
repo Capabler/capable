@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>用户注册</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			.error{
+				color:red;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>用户注册</h1>
+		<a href="/">首页</a>
+		<a href="/access/login">用户登录</a>
+		<div>
+			<form method="post" action="/access/register">
+				<p>用户名：<input type="text" name="user_name" value="<%=user_name%>" /></p>
+				<p>密码：<input type="password" name="user_password" value="<%=user_password%>"/></p>
+				<% if(error!==''){%>
+					<p class="error"><%=error%></p>
+				<%}%>
+				<p><button type="submit">注册</button></p>
+			</form>
+		</div>
+	</body>
+</html>

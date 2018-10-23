@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>代码编辑器</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/prism/index.css" />
+		<link rel="stylesheet" href="/css/code.css" />		
+		<script src="/prism/index.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js" type="text/javascript"></script>
+		<script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" type="text/javascript"></script>
+		<script src="/js/jquery.js"></script>
+	</head>
+	<body>
+	<div class="root">
+		<a href="/" class="home">首页</a>
+		<span class="save">保存</span>
+		<div class="wrapper">
+			<div class="left">
+				<pre id="react-demo" spellcheck="false" contenteditable="true" onkeydown="edit(this)">
+					<code id="prism" class="language-js"></code>
+				</pre>
+			</div>
+			<div class="right">
+				<div id="root"></div>
+			</div>
+		</div>
+	</div>
+	<script>window.code = `<%=code ? code : null%>`</script>
+	<script src="/js/code.js"></script>
+	</body>
+</html>

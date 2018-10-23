@@ -18,6 +18,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
     "ejs": "^2.5.9",
+    "hexo-deployer-git": "^0.3.1",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.0",
     "koa-ejs": "^4.1.1",
