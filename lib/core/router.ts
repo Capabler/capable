@@ -5,7 +5,7 @@ export default (router: any, route: any, Controller: any, func: any) => {
     (global as IGlobal).$_POST = {};
     (global as IGlobal).$_GET = {};
     const _C = new Controller(ctx);
-    const post = ctx.request.body;
+    const post = Object.assign({}, ctx.request.body);
     if (Object.keys(post).length) {
       // 有post请求
       for (const key in post) {
@@ -15,7 +15,7 @@ export default (router: any, route: any, Controller: any, func: any) => {
       }
     }
 
-    const get = ctx.request.query;
+    const get = Object.assign({}, ctx.request.query);
     if (Object.keys(get).length) {
       // get请求参数
       for (const key in get) {
