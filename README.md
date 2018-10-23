@@ -1,14 +1,17 @@
-# [DelicateJS](http://www.sunyangjie.com/2018/04/29/nodejs%E7%89%88web%E4%B8%9A%E5%8A%A1%E5%B1%82%E6%A1%86%E6%9E%B6/)&middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/delicatejs/delicatejs/blob/master/LICENSE) [![NPM version](https://img.shields.io/npm/v/delicate-cli.svg)](https://www.npmjs.com/package/delicate-cli)
+# [Delicate](http://www.sunyangjie.com/2018/04/29/nodejs%E7%89%88web%E4%B8%9A%E5%8A%A1%E5%B1%82%E6%A1%86%E6%9E%B6/)&middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/delicatejs/delicatejs/blob/master/LICENSE) [![NPM version](https://img.shields.io/npm/v/delicate.svg)](https://www.npmjs.com/package/delicate)
 
-一套基于`koa`的Web业务层`mvc`框架，让Web开发变得更便捷，更灵活，更高效
+一套基于`koa`的轻量级`mvc`框架，旨在让基于 node 的 Web`接口`开发变得更便捷，更灵活，更高效
 
-💀 `system`文件夹不能进行自定义修改，如果有需求更新，请提issue 
+💀 **注意**
+
+- 不推荐使用该框架进行服务端模板渲染，如果实在要实现服务端渲染，推荐基于 react 的同构框架[next.js](https://github.com/zeit/next.js)
+
+- 该框架注重于基于 api 的后端业务
 
 ### Setup
-```
-npm install supervisor delicate-cli -g
 
-delicate init <my-project>
+```
+npm install delicate
 
 cd <my-project>
 
@@ -32,44 +35,47 @@ npm start
 ### 更新日志
 
 - 服务端返回形式
+
   - 正常返回
+
   ```js
   //例如返回json格式的数据
-  this.ctx.set('Content-Type', 'text/json')	
-  this.ctx.body = {}
+  this.ctx.set('Content-Type', 'text/json');
+  this.ctx.body = {};
   ```
 
   - 模板返回
+
   ```js
   //指定模板的路径和模板需要渲染的数据[数组]
-  this.view(templatePath,templateData)  
+  this.view(templatePath, templateData);
   ```
 
   - 重定向
+
   ```js
   //重定向到路由为'/'的页面
-  this.redirect('/')
+  this.redirect('/');
   ```
 
-
-- 请求方式检测
+* 请求方式检测
 
 ```js
 //core  MY_Controller
-module.exports = class extends DJ_Controller{
-  constructor(ctx) { 
-    super(ctx)				
+module.exports = class extends DJ_Controller {
+  constructor(ctx) {
+    super(ctx);
     this.MethodNotAllowed(() => {
-      this.ctx.status = 405
-      this.ctx.body = 'Method Not Allowed'
-    })
+      this.ctx.status = 405;
+      this.ctx.body = 'Method Not Allowed';
+    });
   }
-}
+};
 
 //controllers
 //目前支持请求方式 'get', 'post', 'delete', 'head', 'options', 'put', 'patch'
-module.exports = class extends MY_Controller{
-  async delete(){
+module.exports = class extends MY_Controller {
+  async delete() {
     /*
      * 指定当前接受的请求方式
      * 如果请求方式不是delete，会执行this.MethodNotAllowed的回调方法
@@ -77,26 +83,26 @@ module.exports = class extends MY_Controller{
      */
 
     //指定单个请求方式
-    await this.method.delete()
-    
+    await this.method.delete();
+
     //指定多个请求方式
-    await this.method('delete','post')
-    
+    await this.method('delete', 'post');
+
     //指定不同的请求方式的业务代码
     //必须要先指定所有可能的请求方式
     //await this.method('post', 'delete')
-    this.method.post( async () => {
+    this.method.post(async () => {
       //post请求方式的业务代码
     });
 
-    this.method.delete( async()=>{
+    this.method.delete(async () => {
       //delete请求方式的业务代码
     });
 
-    //编写业务代码 
-    //更多查看最佳实践delicatejs-example    
+    //编写业务代码
+    //更多查看最佳实践delicatejs-example
   }
-}
+};
 ```
 
 ### More
