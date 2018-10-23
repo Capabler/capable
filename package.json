@@ -28,6 +28,7 @@
     "koa-session": "^5.8.1",
     "koa-static": "^4.0.2",
     "lokijs": "^1.5.3",
+    "mysql2": "1.6.1",
     "sequelize": "^4.41.0"
   }
 }
