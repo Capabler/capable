@@ -11,26 +11,15 @@
 ### Setup
 
 ```
-npm install delicate
-
-cd <my-project>
-
-npm install
-
-npm start
+$ cd example
+$ node index.js
 ```
 
-访问 `http://localhost:3000/` [more>](https://github.com/delicatejs)
-
-### Update
-
-在项目根目录下执行`delicate update`即可完成更新
+访问 `http://localhost:3001/` [more>](https://github.com/delicatejs)
 
 ### Deployment
 
 使用 [pm2](https://github.com/Unitech/pm2) 进行项目的部署服务
-
-### [Download](https://github.com/delicatejs/delicatejs/archive/0.0.1.zip)
 
 ### 更新日志
 
