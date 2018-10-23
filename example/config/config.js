@@ -22,7 +22,7 @@ module.exports = {
   /**
    * 自定义静态资源存放目录
    */
-  static: path.join(__dirname, '../views/public'),
+  source: path.join(__dirname, '../views/public'),
 
   /**
    * 使用的模板引擎

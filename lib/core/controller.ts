@@ -1,11 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const createRouter = require('./router');
+import fs from 'fs';
+import path from 'path';
+import createRouter from './router';
 const dir = process.cwd();
 const controllerPath = path.join(dir, 'controllers');
 
-const getParameterName = (fn) => {
-  if (typeof fn !== 'object' && typeof fn !== 'function') return;
+const getParameterName = (fn: any) => {
+  if (typeof fn !== 'object' && typeof fn !== 'function') {
+    return;
+  }
   const COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
   const DEFAULT_PARAMS = /=[^,)]+/gm;
   const FAT_ARROWS = /=>.*$/gm;
@@ -14,32 +16,33 @@ const getParameterName = (fn) => {
     .replace(COMMENTS, '')
     .replace(FAT_ARROWS, '')
     .replace(DEFAULT_PARAMS, '');
-  let result = code
+  const result = code
     .slice(code.indexOf('(') + 1, code.indexOf(')'))
     .match(/([^\s,]+)/g);
   return result === null ? [] : result;
 };
 
-//遍历文件
-module.exports = function fileDisplay(router, filePath = controllerPath) {
-  //根据文件路径读取文件，返回文件列表
-  fs.readdir(filePath, function(err, files) {
+// 遍历文件
+export default function fileDisplay(router: any, filePath = controllerPath) {
+  // 根据文件路径读取文件，返回文件列表
+  // tslint:disable-next-line:only-arrow-functions
+  fs.readdir(filePath, (err, files) => {
     if (err) {
       console.warn(err);
     } else {
-      //遍历读取到的文件列表
-      files.forEach(function(filename) {
-        //获取当前文件的绝对路径
-        var filedir = path.join(filePath, filename);
-        //根据文件路径获取文件信息，返回一个fs.Stats对象
-        fs.stat(filedir, function(eror, stats) {
+      // 遍历读取到的文件列表
+      files.forEach((filename) => {
+        // 获取当前文件的绝对路径
+        const filedir = path.join(filePath, filename);
+        // 根据文件路径获取文件信息，返回一个fs.Stats对象
+        fs.stat(filedir, (eror, stats) => {
           if (eror) {
             console.warn('获取文件stats失败');
           } else {
-            var isFile = stats.isFile(); //是文件
-            var isDir = stats.isDirectory(); //是文件夹
+            const isFile = stats.isFile(); // 是文件
+            const isDir = stats.isDirectory(); // 是文件夹
             if (isFile && !/\.delicate$/.test(filedir)) {
-              //控制器的js文件名称
+              // 控制器的js文件名称
               const routeDir = filedir
                 .replace(controllerPath, '')
                 .replace(/\.js$/, '');
@@ -48,15 +51,15 @@ module.exports = function fileDisplay(router, filePath = controllerPath) {
                 Controller.prototype,
               ).filter((item) => item !== 'constructor');
 
-              //忽略index
+              // 忽略index
               const igoreIndex = routeDir
                 .split('/')
-                .filter((item) => item != 'index')
+                .filter((item) => item !== 'index')
                 .join('/');
               if (igoreIndex !== routeDir) {
-                router.all(igoreIndex, async (ctx, next) => {
+                router.all(igoreIndex, async (ctx: any, next: any) => {
                   const _C = new Controller(ctx);
-                  await _C.index.apply(_C, Object.values(ctx.params));
+                  await _C.index.apply(_C, (Object as any).values(ctx.params));
                 });
               }
 
@@ -66,20 +69,20 @@ module.exports = function fileDisplay(router, filePath = controllerPath) {
                   const params = getParameterName(fn);
                   let route = '';
 
-                  //js的类的属性方法名是index
+                  // js的类的属性方法名是index
                   if (item === 'index') {
                     createRouter(router, routeDir, Controller, item);
                   }
 
-                  //完整路径
+                  // 完整路径
                   route = path.join(routeDir, item);
                   createRouter(router, route, Controller, item);
 
-                  //匹配参数
+                  // 匹配参数
                   // /a/:id/:name
                   if (params.length) {
                     let _route = route;
-                    params.map((param) => {
+                    params.map((param: any) => {
                       _route = path.join(_route, ':' + param);
                       createRouter(router, _route, Controller, item);
                     });
@@ -88,11 +91,11 @@ module.exports = function fileDisplay(router, filePath = controllerPath) {
               }
             }
             if (isDir) {
-              fileDisplay(router, filedir); //递归，如果是文件夹，就继续遍历该文件夹下面的文件
+              fileDisplay(router, filedir); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
             }
           }
         });
       });
     }
   });
-};
+}

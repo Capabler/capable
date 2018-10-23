@@ -1,12 +1,13 @@
 /**
  * 使用lokijs引擎
  */
-const loki = require('lokijs');
-const fs = require('fs');
-const path = require('path');
+import loki from 'lokijs';
+import fs from 'fs';
+import path from 'path';
 
-module.exports = class {
-  constructor(config) {
+export default class {
+  private db: any;
+  constructor(config: any) {
     let dir = config.db.split('/');
     dir.pop();
     dir = dir.join('/');
@@ -19,7 +20,7 @@ module.exports = class {
     });
   }
 
-  initDB() {
+  public initDB() {
     return new Promise((resolve, reject) => {
       if (this.db) {
         this.db.loadDatabase(null, () => {
@@ -31,7 +32,7 @@ module.exports = class {
     });
   }
 
-  async initTable(tabelName) {
+  public async initTable(tabelName: any) {
     await this.initDB();
     let table = this.db.getCollection(tabelName);
     if (table === null) {
@@ -41,20 +42,20 @@ module.exports = class {
     return table;
   }
 
-  //创建表
-  createTable(tabelName) {
+  // 创建表
+  public createTable(tabelName: any) {
     if (this.db) {
       return this.db.addCollection(tabelName);
     }
   }
 
-  //保存数据表
-  saveDatabase() {
+  // 保存数据表
+  public saveDatabase() {
     this.db.saveDatabase();
   }
 
-  //添加数据
-  async insert(tabelName, data = {}) {
+  // 添加数据
+  public async insert(tabelName: any, data = {}) {
     await this.initDB();
     let table = this.db.getCollection(tabelName);
     if (table === null) {
@@ -66,8 +67,8 @@ module.exports = class {
     this.saveDatabase();
   }
 
-  //拉取数据
-  async select(tabelName, data = {}) {
+  // 拉取数据
+  public async select(tabelName: any, data = {}) {
     const table = await this.initTable(tabelName);
     return table
       .chain()
@@ -75,15 +76,15 @@ module.exports = class {
       .data();
   }
 
-  //清除表的所有数据
-  async clearTable(tabelName) {
+  // 清除表的所有数据
+  public async clearTable(tabelName: any) {
     const table = await this.initTable(tabelName);
     table.chain().remove();
     this.saveDatabase();
   }
 
-  //删除指定的表数据
-  async delete(tabelName, data = {}) {
+  // 删除指定的表数据
+  public async delete(tabelName: any, data = {}) {
     if (Object.keys(data).length === 0) {
       throw { message: '删除表数据需要传值' };
     }
@@ -95,8 +96,8 @@ module.exports = class {
     this.saveDatabase();
   }
 
-  //更新数据
-  async update(tabelName, where = {}, updateData = {}) {
+  // 更新数据
+  public async update(tabelName: any, where = {}, updateData = {}) {
     if (
       Object.keys(where).length === 0 ||
       Object.keys(updateData).length === 0
@@ -107,4 +108,4 @@ module.exports = class {
     table.update({ ...table.findOne(where), ...updateData });
     this.saveDatabase();
   }
-};
+}

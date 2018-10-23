@@ -2,9 +2,11 @@
   "name": "delicate",
   "version": "0.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/core",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "tslint -p tsconfig.json",
+    "build": "npm run lint && tsc",
+    "dev": "tsc -w"
   },
   "repository": {
     "type": "git",
@@ -13,13 +15,24 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-bodyparser": "^5.0.1",
+    "@types/koa-router": "^7.0.32",
+    "@types/koa-session": "^5.7.4",
+    "@types/koa-static": "^4.0.0",
+    "@types/lokijs": "^1.5.2",
+    "@types/node": "^10.12.0",
+    "@types/sequelize": "^4.27.28",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
+    "dts-bundle": "^0.7.3",
     "ejs": "^2.5.9",
     "koa-ejs": "^4.1.1",
     "koa-react-view": "^3.0.0",
-    "md5": "^2.2.1"
+    "md5": "^2.2.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.3"
   },
   "dependencies": {
     "koa": "^2.5.1",

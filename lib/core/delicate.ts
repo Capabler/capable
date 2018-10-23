@@ -1,7 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const events = require('events');
-const Loader = require('./loader');
+import fs from 'fs';
+import path from 'path';
+import events from 'events';
+import Loader from './loader';
+import { IGlobal } from '../types/global';
 const dir = process.cwd();
 
 const {
@@ -11,31 +12,36 @@ const {
   models = [],
 } = require(path.join(dir, 'config/config.js'));
 
-module.exports = (app) => {
+export default (app: any) => {
   process.setMaxListeners(0);
 
-  global.$_POST = {};
-  global.$_GET = {};
-  global.$_COOKIE = {};
-  global.$_SESSION = {};
+  (global as IGlobal).$_POST = {};
+  (global as IGlobal).$_GET = {};
+  (global as IGlobal).$_COOKIE = {};
+  (global as IGlobal).$_SESSION = {};
 
-  global.emitter = new events.EventEmitter();
-  global.setcookie = Function;
+  (global as IGlobal).emitter = new events.EventEmitter();
+  (global as IGlobal).setcookie = Function;
 
-  let _MethodNotAllowedCallback = null;
+  let _MethodNotAllowedCallback: any = null;
 
-  global.DJ_Controller = class {
-    constructor(ctx) {
+  (global as IGlobal).DJ_Controller = class {
+    private ctx: any;
+    private load: any;
+    private template_engine: any;
+    private method: any;
+
+    constructor(ctx: any) {
       this.ctx = ctx;
 
-      const loadedModels = [];
-      //加载默认model
+      const loadedModels: any = [];
+      // 加载默认model
       if (models.length) {
-        models.map((modelName) => {
+        models.map((modelName: any) => {
           const modelFile = path.join(dir, 'models', modelName + '.js');
           if (fs.existsSync(modelFile)) {
             const Model = require(modelFile);
-            this[modelName] = new Model(ctx);
+            (this as any)[modelName] = new Model(ctx);
             loadedModels.push(modelName);
           }
         });
@@ -45,30 +51,30 @@ module.exports = (app) => {
       // 动态修改的模板引擎
       this.template_engine = null;
 
-      //加载model
-      global.emitter.on('load.model', (name, model) => {
-        this[name] = model;
+      // 加载model
+      (global as IGlobal).emitter.on('load.model', (name: any, model: any) => {
+        (this as any)[name] = model;
       });
 
-      //加载模板
-      global.emitter.on('load.template', (engine) => {
+      // 加载模板
+      (global as IGlobal).emitter.on('load.template', (engine: any) => {
         this.template_engine = engine;
       });
 
       this.judgeMethod();
     }
 
-    MethodNotAllowed(cb = null) {
+    public MethodNotAllowed(cb = null) {
       _MethodNotAllowedCallback = cb;
     }
 
-    //请求方式的判断
-    judgeMethod() {
-      let methods = [];
+    // 请求方式的判断
+    public judgeMethod() {
+      let methods: any = [];
 
-      //一个接口适应多个请求方式
+      // 一个接口适应多个请求方式
       this.method = async function() {
-        methods = Object.values(arguments);
+        methods = (Object as any).values(arguments);
         if (methods.length < 2) {
           if (methods.length) {
             throw {
@@ -90,10 +96,10 @@ module.exports = (app) => {
         }
       };
 
-      //可以执行回调
+      // 可以执行回调
       ['get', 'post', 'delete', 'head', 'options', 'put', 'patch'].map(
         (method) => {
-          this.method[method] = async (cb = null) => {
+          this.method[method] = async (cb: any) => {
             if (this.ctx.request.method === method.toLocaleUpperCase()) {
               if (cb) {
                 await cb();
@@ -111,8 +117,8 @@ module.exports = (app) => {
       );
     }
 
-    async view(template, data = {}) {
-      global.emitter.removeAllListeners();
+    public async view(template: any, data = {}) {
+      (global as IGlobal).emitter.removeAllListeners();
       const ext = templates[this.template_engine || template_engine].ext;
       const tpl = path.join(dir, 'views', template + '.' + ext);
       if (fs.existsSync(tpl)) {
@@ -121,7 +127,7 @@ module.exports = (app) => {
           this.template_engine || template_engine,
         );
         await this.ctx.render(template, data);
-        //如果改变了模板，恢复当前默认模板引擎
+        // 如果改变了模板，恢复当前默认模板引擎
         if (this.template_engine) {
           this.template_engine = null;
           app.context.render = null;
@@ -132,18 +138,18 @@ module.exports = (app) => {
       }
     }
 
-    async redirect() {
-      global.emitter.removeAllListeners();
+    public async redirect() {
+      (global as IGlobal).emitter.removeAllListeners();
       this.ctx.redirect.apply(this.ctx, arguments);
     }
   };
 
-  //确认是否存在MY_Controller
+  // 确认是否存在MY_Controller
   const AppCtrDir = path.join(
     path.join(dir, 'core', subclass_prefix + 'Controller.js'),
   );
 
   if (fs.existsSync(AppCtrDir)) {
-    global[subclass_prefix + 'Controller'] = require(AppCtrDir);
+    (global as any)[subclass_prefix + 'Controller'] = require(AppCtrDir);
   }
 };

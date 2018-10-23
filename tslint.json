@@ -1,0 +1,82 @@
+{
+  "extends": ["tslint:latest"],
+  "rules": {
+    "ordered-imports": false, // import 进来的模块是否按字母顺序排列： 否
+    "interface-name": false, // 接口名称是否以 I 开头：否
+    "max-line-length": [true, 120], // 每一行最大字符数：120
+    "ban-types": false, // 屏蔽指定类型：无
+    "no-inferrable-types": true, //无须声明变量或者属性的类型，如果其类型可以推断为数字，字符串或者布尔值：是
+    "class-name": true, // 类和接口的名称遵循帕斯卡命名： 是
+    "comment-format": [true, "check-space"], // 单行注释规则：以空格开头
+    "encoding": true, // utf8编码：是
+    "indent": [true, "spaces"], // 缩进规则：使用空格缩进
+    "eofline": true, // 文件结尾必须有一个空行：是
+    "no-duplicate-variable": true, // 同一个块作用域不允许重复的变量声明：是
+    "no-eval": true, // 不允许使用 eval ：是
+    "no-arg": true, // 不允许使用 arguments.callee ：是
+    "no-internal-module": true, // 不允许使用内部 module ：是
+    "no-trailing-whitespace": true, // 不允许行尾空格：是
+    "no-use-before-declare": true, // 不允许变量在声明之前使用： 是
+    "no-unused-variable": false, // 不允许未使用的 import，变量，函数和类私有成员： 是
+    "no-unused-expression": true, // 不允许未使用的表达式： 是
+    "no-var-keyword": true, // 不允许使用 var ： 是
+    "no-var-requires": false, // 不允许使用 var/let/const module = require('module')，允许 import module = require('module') : 否
+    "no-console": false, // 不允许使用 console 方法： 否
+    "no-bitwise": false, // 不允许使用位操作符： 否
+    "no-string-throw": false, // 不允许抛出一个字符串信息的错误（throw 'sth error'）： 否
+    "no-submodule-imports": false, // 不允许引入次级模块（import @xmly/award/Exception)： 否
+    "object-literal-sort-keys": false, // 检查对象字符串的属性排序： 否
+    "one-line": [
+      // 检查某些表达式是否在一行： 是
+      true,
+      "check-catch", // catch 与 右花括号在一行， } catch
+      "check-else", // else 与 右花括号在一行， } else
+      "check-open-brace", // ) 与 { 要在同一行
+      "check-whitespace" // ) 与 { 之间要有空格
+    ],
+    "quotemark": [false, "single", "avoid-escape"], // 引号规则：'Hello "World"''
+    "semicolon": [true, "always"], // 强制使用分号： 是
+    "jsdoc-format": false, // 强制使用 /**/ 格式注释： 否
+    "typedef-whitespace": [
+      // 设置类型定义的冒号两边的空格（const obj: object = {}）
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
+    "curly": true, // if for do while 等表达式不能无花括号简写： 是
+    "variable-name": false, // 设置变量名命名规则： 否
+    "whitespace": [
+      // 配置空格
+      true,
+      "check-branch", // 条件语句声明 if/else/for/while 后接空格
+      "check-decl", // 声明变量的等号两变都要有空格
+      "check-operator", // 操作符两边都要有空格
+      "check-separator", // 分隔符（,/;）不能后接空格
+      "check-type" // 变量的类型前需要一个空格
+    ],
+    "trailing-comma": [
+      // 尾逗号设置
+      true,
+      {
+        "multiline": "always", // 多行添加尾逗号
+        "singleline": "never" // 单行不加尾逗号
+      }
+    ],
+    "max-classes-per-file": false, // 是否限制每个文件类的数量： 否
+    "no-implicit-dependencies": false, // 不允许引入 dependencies 和 devDependencies 里未列出的模块：否
+    "prefer-conditional-expression": false, // 使用三元表达式替换 if-else ：否
+    "no-empty": false, // 不允许空的块级代码：否
+    "prefer-object-spread": false, //  使用对象展开符代替 Object.assign() 方法： 否
+    "one-variable-per-declaration": false, // 在同一声明语句中禁止多个变量定义：否
+    "no-this-assignment": false, // 不允许没有必要的 this 引用： 否
+    "no-conditional-assignment": false, // 不允许在条件表达式中赋值(if (a = b) {...})：否
+    "member-ordering": false, // 类成员排序： 否
+    "no-shadowed-variable": true, // 不允许 shadow 变量声明: 是
+    "no-reference": false
+  }
+}

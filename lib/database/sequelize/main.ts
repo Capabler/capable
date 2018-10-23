@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-module.exports = ({ database, username, password, host }) => {
+export default ({ database, username, password, host }: any) => {
   return new Sequelize(database, username, password, {
     host,
     dialect: 'mysql',
@@ -17,6 +17,6 @@ module.exports = ({ database, username, password, host }) => {
       freezeTableName: true,
     },
     operatorsAliases: false,
-    logging: function(sql) {},
+    logging(sql: any) {},
   });
 };

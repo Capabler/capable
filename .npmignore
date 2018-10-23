@@ -1,2 +1,8 @@
 example
 project
+lib
+tsconfig.json
+tslint.json
+yarn.lock
+yarn-error.log
+package-lock.json

@@ -1,12 +1,17 @@
-const Koa = require('koa');
-const Router = require('koa-router');
-const bodyParser = require('koa-bodyparser');
-const session = require('koa-session');
-const staticServer = require('koa-static');
-const path = require('path');
+import Koa from 'koa';
+import Router from 'koa-router';
+import bodyParser from 'koa-bodyparser';
+import session from 'koa-session';
+import staticServer from 'koa-static';
+import path from 'path';
+import { IGlobal } from '../types/global';
+import Controller from './controller';
+import DelicateCore from './delicate';
+import DelicateModel from './model';
+
 const dir = process.cwd();
 
-const { port, static, templates, template_engine } = require(path.join(
+const { port, source, templates, template_engine } = require(path.join(
   dir,
   'config/config.js',
 ));
@@ -15,8 +20,8 @@ const app = new Koa();
 const router = new Router();
 
 // 全局注册公共方法
-require('./delicate')(app);
-require('./model')(app);
+DelicateCore(app);
+DelicateModel(app);
 
 /**
  * 入口中间件
@@ -25,29 +30,31 @@ require('./model')(app);
  */
 app.use(async (ctx, next) => {
   try {
-    //初始化数据信息
+    // 初始化数据信息
     const cookieHeader = ctx.headers.cookie;
-    let cookie = {};
+    const cookie: any = {};
     if (cookieHeader) {
-      const cookies = cookieHeader.split(';');
-      cookies.forEach(function(item) {
+      const cookies: any = cookieHeader.split(';');
+      cookies.forEach((item: any) => {
         const crumbs = item.split('=');
-        if (crumbs.length > 1) cookie[crumbs[0].trim()] = crumbs[1].trim();
+        if (crumbs.length > 1) {
+          cookie[crumbs[0].trim()] = crumbs[1].trim();
+        }
       });
     }
-    global.setcookie = (name, value, options = {}) => {
+    (global as IGlobal).setcookie = (name: any, value: any, options = {}) => {
       ctx.cookies.set(name, value, options);
     };
-    global.$_COOKIE = cookie;
-    global.$_SESSION = ctx.session;
+    (global as IGlobal).$_COOKIE = cookie;
+    (global as IGlobal).$_SESSION = ctx.session;
 
     ctx.set('X-Powered-By', 'DelicateJS');
 
-    //执行核心操作
+    // 执行核心操作
     await next();
 
-    //清除预置参数
-    global.emitter.removeAllListeners();
+    // 清除预置参数
+    (global as IGlobal).emitter.removeAllListeners();
   } catch (err) {
     ctx.status = err.status || err.code || 500;
     ctx.body = {
@@ -62,7 +69,7 @@ app.use(async (ctx, next) => {
  */
 app.use(
   bodyParser({
-    onerror: function(err, ctx) {
+    onerror: (err, ctx) => {
       ctx.throw('body parse error', 422);
     },
   }),
@@ -96,8 +103,8 @@ if (templates && template_engine) {
 /**
  * 静态资源访问权限
  */
-if (static) {
-  app.use(staticServer(static));
+if (source) {
+  app.use(staticServer(source));
 }
 
 /**
@@ -114,11 +121,18 @@ app.use(async (ctx, next) => {
 });
 
 /**
+ * 注册控制器
+ */
+Controller(router);
+
+/**
+ * 注册路由
+ */
+app.use(router.routes());
+
+/**
  * 启动服务器
  */
-module.exports = () => {
-  require('./controller')(router);
-  app.use(router.routes());
-  app.listen(port);
+app.listen(port, () => {
   console.log('> http://localhost:' + port);
-};
+});

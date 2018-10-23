@@ -1,15 +1,16 @@
 /**
  * 使用sequelize进行增删改查
  */
-const Sequelize = require('sequelize');
-const sequelize = require('./main');
+import Sequelize from 'sequelize';
+import sequelize from './main';
 
-module.exports = class {
+export default class {
+  private sequelize: any;
   constructor(config = {}) {
     this.sequelize = sequelize(config);
   }
 
-  async __SELECT__(sql) {
+  public async __SELECT__(sql: any) {
     const data = await this.sequelize.query(sql, {
       type: Sequelize.QueryTypes.SELECT,
     });
@@ -17,11 +18,11 @@ module.exports = class {
     return data;
   }
 
-  async __INSERT__(sql) {
+  public async __INSERT__(sql: any) {
     const data = await this.sequelize.query(sql, {
       type: Sequelize.QueryTypes.INSERT,
     });
     this.sequelize.close();
     return data;
   }
-};
+}
