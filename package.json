@@ -1,6 +1,6 @@
 {
   "name": "delicate",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,22 +12,22 @@
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
     "ejs": "^2.5.9",
-    "hexo-deployer-git": "^0.3.1",
-    "koa": "^2.5.1",
-    "koa-bodyparser": "^4.2.0",
     "koa-ejs": "^4.1.1",
     "koa-react-view": "^3.0.0",
+    "md5": "^2.2.1"
+  },
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
     "koa-session": "^5.8.1",
     "koa-static": "^4.0.2",
     "lokijs": "^1.5.3",
-    "md5": "^2.2.1",
-    "mysql2": "^1.5.3",
-    "sequelize": "^4.37.6"
+    "sequelize": "^4.41.0"
   }
 }
