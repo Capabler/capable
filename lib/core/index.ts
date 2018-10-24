@@ -53,9 +53,18 @@ app.use(async (ctx, next) => {
     // 执行核心操作
     await next();
 
+    // 关闭数据库链接
+    (global as IGlobal).emitter.emit('close.database');
+
     // 清除预置参数
     (global as IGlobal).emitter.removeAllListeners();
   } catch (err) {
+    // 关闭数据库链接
+    (global as IGlobal).emitter.emit('close.database');
+
+    // 清除预置参数
+    (global as IGlobal).emitter.removeAllListeners();
+
     ctx.status = err.status || err.code || 500;
     ctx.body = {
       ret: -1,

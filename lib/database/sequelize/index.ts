@@ -49,15 +49,18 @@ export default class extends Base {
       }
     } else {
       // this.db.get('info').row_array()
-      this.sql = 'SELECT * FROM ' + table + ' WHERE ';
+      this.sql = 'SELECT * FROM ' + table;
     }
 
+    const WHERE = [];
     for (const key in this.conditions) {
       if (this.conditions.hasOwnProperty(key)) {
-        this.sql += key + ' = "' + (this as any).conditions[key] + '" AND ';
+        WHERE.push(key + ' = "' + (this as any).conditions[key] + '"');
       }
     }
-    this.sql += ' 1 =1 ';
+    if (WHERE.length) {
+      this.sql += ' WHERE ' + WHERE.join(' AND ');
+    }
     return this;
   }
 
@@ -68,5 +71,55 @@ export default class extends Base {
 
   public async result_array() {
     return this.query();
+  }
+
+  public async insert(table = '', data: Object) {
+    if (table === '') {
+      throw 'insert的table不能为空';
+    } else {
+      const keys = Object.keys(data);
+      const values = Object.values(data);
+      if (keys.length) {
+        const sql =
+          'INSERT INTO ' +
+          table +
+          '(' +
+          keys.join(',') +
+          ') value(' +
+          values.map((item) => "'" + item + "'").join(',') +
+          ');';
+        return this.__INSERT__(sql);
+      } else {
+        throw 'insert的数据不能为空';
+      }
+    }
+  }
+
+  public async update(table = '', data: any) {
+    if (table === '') {
+      throw 'update的table不能为空';
+    } else {
+      if (!Object.keys(data).length) {
+        throw 'update更新的内容不能为空';
+      }
+      let sql = 'UPDATE ' + table + ' SET ';
+      const SET = [];
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          SET.push(key + ' = "' + data[key] + '"');
+        }
+      }
+      sql += SET.join(',');
+      const WHERE = [];
+      for (const key in this.conditions) {
+        if (this.conditions.hasOwnProperty(key)) {
+          WHERE.push(key + ' = "' + (this as any).conditions[key] + '"');
+        }
+      }
+      if (WHERE.length) {
+        sql += ' WHERE ' + WHERE.join(' AND ');
+      }
+      return this.__UPDATE__(sql);
+    }
   }
 }

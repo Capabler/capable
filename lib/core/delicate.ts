@@ -51,14 +51,32 @@ export default (app: any) => {
       // 动态修改的模板引擎
       this.template_engine = null;
 
+      const dbModels: any = [];
+      const dbNames: any = [];
       // 加载model
       (global as IGlobal).emitter.on('load.model', (name: any, model: any) => {
+        dbModels.push(name);
+        const modelKeys = Object.keys(model);
+        modelKeys.map((item) => {
+          if (!(this as any)[item]) {
+            dbNames.push(item);
+          }
+        });
         (this as any)[name] = model;
       });
 
       // 加载模板
       (global as IGlobal).emitter.on('load.template', (engine: any) => {
         this.template_engine = engine;
+      });
+
+      // 关闭数据库
+      (global as IGlobal).emitter.on('close.database', () => {
+        dbModels.map((item: any) => {
+          dbNames.map((db: any) => {
+            (this as any)[item][db].sequelize.close();
+          });
+        });
       });
 
       this.judgeMethod();

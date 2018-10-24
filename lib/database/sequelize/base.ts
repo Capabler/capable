@@ -5,7 +5,7 @@ import Sequelize from 'sequelize';
 import sequelize from './main';
 
 export default class {
-  private sequelize: any;
+  public sequelize: any;
   constructor(config = {}) {
     this.sequelize = sequelize(config);
   }
@@ -14,7 +14,6 @@ export default class {
     const data = await this.sequelize.query(sql, {
       type: Sequelize.QueryTypes.SELECT,
     });
-    this.sequelize.close();
     return data;
   }
 
@@ -22,7 +21,13 @@ export default class {
     const data = await this.sequelize.query(sql, {
       type: Sequelize.QueryTypes.INSERT,
     });
-    this.sequelize.close();
+    return data;
+  }
+
+  public async __UPDATE__(sql: any) {
+    const data = await this.sequelize.query(sql, {
+      type: Sequelize.QueryTypes.UPDATE,
+    });
     return data;
   }
 }
