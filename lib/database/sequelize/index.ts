@@ -9,6 +9,7 @@ export default class extends Base {
   private table: any;
   private sql: any;
   private conditions: Object;
+  private order: any;
 
   constructor(config = {}) {
     super(config);
@@ -16,10 +17,12 @@ export default class extends Base {
     this.table = '';
     this.sql = '';
     this.conditions = {};
+    this.order = '';
   }
 
   public async query(sql = '') {
     sql = sql || this.sql;
+    this.sql = '';
     return this.__SELECT__(sql);
   }
 
@@ -30,6 +33,12 @@ export default class extends Base {
 
   public where(conditions = {}) {
     this.conditions = conditions;
+    return this;
+  }
+
+  // order_by('uid asc, id desc')
+  public order_by(order = '') {
+    this.order = order;
     return this;
   }
 
@@ -44,13 +53,13 @@ export default class extends Base {
         throw '请指定表名称';
       } else {
         // this.db.select('version,token').from('info').get().row_array()
-        const columns = this.columns ? '*' : this.columns;
-        this.sql = 'SELECT ' + columns + ' FROM ' + this.table + ' WHERE ';
+        table = this.table;
       }
-    } else {
-      // this.db.get('info').row_array()
-      this.sql = 'SELECT * FROM ' + table;
     }
+
+    const columns = this.columns === '' ? '*' : this.columns;
+    this.sql = 'SELECT ' + columns + ' FROM ' + table;
+    this.columns = '';
 
     const WHERE = [];
     for (const key in this.conditions) {
@@ -58,9 +67,17 @@ export default class extends Base {
         WHERE.push(key + ' = "' + (this as any).conditions[key] + '"');
       }
     }
+    this.conditions = {};
     if (WHERE.length) {
       this.sql += ' WHERE ' + WHERE.join(' AND ');
     }
+
+    if (this.order) {
+      this.sql += ' ORDER BY ' + this.order;
+    }
+
+    this.order = '';
+
     return this;
   }
 
@@ -116,6 +133,7 @@ export default class extends Base {
           WHERE.push(key + ' = "' + (this as any).conditions[key] + '"');
         }
       }
+      this.conditions = {};
       if (WHERE.length) {
         sql += ' WHERE ' + WHERE.join(' AND ');
       }
