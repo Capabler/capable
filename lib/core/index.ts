@@ -65,10 +65,16 @@ app.use(async (ctx, next) => {
     // 清除预置参数
     (global as IGlobal).emitter.removeAllListeners();
 
-    ctx.status = err.status || err.code || 500;
+    let status = 500;
+
+    if (err.code === 'ECONNREFUSED') {
+      status = 503;
+    }
+
+    ctx.status = err.status || status || 500;
     ctx.body = {
-      ret: -1,
-      msg: err.message,
+      code: 400, // code码为400表示错误异常了
+      msg: err.message || err.code,
     };
   }
 });
