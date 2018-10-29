@@ -6,7 +6,9 @@
 
 - 不推荐使用该框架进行服务端模板渲染，如果实在要实现服务端渲染，推荐基于 react 的同构框架[next.js](https://github.com/zeit/next.js)
 
-- 该框架注重于基于 api 的后端业务
+- 该框架注重于基于 api 的后端业务，取消了内置的模板引擎，专注于后端业务层，即`Model和Controller`,弱化了`View`
+
+- 目前框架处于调整期，已经加入 socket 功能
 
 ### Setup
 

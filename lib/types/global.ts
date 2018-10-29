@@ -7,4 +7,5 @@ export interface IGlobal extends NodeJS.Global {
   setcookie: Function;
   DJ_Controller: Function;
   DJ_Model: Function;
+  SocketIo: any;
 }

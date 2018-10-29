@@ -1,3 +1,8 @@
+/**
+ * 加载器
+ * 加载model
+ *    database
+ */
 import path from 'path';
 import fs from 'fs';
 import { IGlobal } from '../types/global';
@@ -6,7 +11,6 @@ import Sequelize from '../database/sequelize';
 import Lokijs from '../database/lokijs';
 
 const dir = process.cwd();
-const { templates } = require(path.join(dir, 'config/config.js'));
 
 export default class {
   private app: any;
@@ -61,17 +65,6 @@ export default class {
 
       default:
         break;
-    }
-  }
-
-  /**
-   * 动态注册模板引擎
-   */
-  public template(templateName: any) {
-    this.app.context.render = null;
-    if (templates[templateName]) {
-      templates[templateName].render(this.app);
-      (global as IGlobal).emitter.emit('load.template', templateName);
     }
   }
 }

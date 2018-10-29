@@ -1,4 +1,4 @@
-import { IGlobal } from '../types/global';
+import { IGlobal } from '../../../types/global';
 
 export default (router: any, route: any, Controller: any, func: any) => {
   router.all(route, async (ctx: any, next: any) => {

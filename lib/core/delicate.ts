@@ -5,12 +5,10 @@ import Loader from './loader';
 import { IGlobal } from '../types/global';
 const dir = process.cwd();
 
-const {
-  subclass_prefix,
-  template_engine,
-  templates,
-  models = [],
-} = require(path.join(dir, 'config/config.js'));
+const { subclass_prefix, models = [] } = require(path.join(
+  dir,
+  'config/config.js',
+));
 
 export default (app: any) => {
   process.setMaxListeners(0);
@@ -27,13 +25,13 @@ export default (app: any) => {
 
   (global as IGlobal).DJ_Controller = class {
     private ctx: any;
+    private socket: any;
     private load: any;
-    private template_engine: any;
     private method: any;
 
-    constructor(ctx: any) {
+    constructor(ctx: any, socket: any) {
       this.ctx = ctx;
-
+      this.socket = socket;
       const loadedModels: any = [];
       // 加载默认model
       if (models.length) {
@@ -48,11 +46,10 @@ export default (app: any) => {
       }
 
       this.load = new Loader(app, ctx, loadedModels);
-      // 动态修改的模板引擎
-      this.template_engine = null;
 
       const dbModels: any = [];
       const dbNames: any = [];
+
       // 加载model
       (global as IGlobal).emitter.on('load.model', (name: any, model: any) => {
         dbModels.push(name);
@@ -63,11 +60,6 @@ export default (app: any) => {
           }
         });
         (this as any)[name] = model;
-      });
-
-      // 加载模板
-      (global as IGlobal).emitter.on('load.template', (engine: any) => {
-        this.template_engine = engine;
       });
 
       // 关闭数据库
@@ -133,27 +125,6 @@ export default (app: any) => {
           };
         },
       );
-    }
-
-    public async view(template: any, data = {}) {
-      (global as IGlobal).emitter.removeAllListeners();
-      const ext = templates[this.template_engine || template_engine].ext;
-      const tpl = path.join(dir, 'views', template + '.' + ext);
-      if (fs.existsSync(tpl)) {
-        this.ctx.set(
-          'X-Template-Engine',
-          this.template_engine || template_engine,
-        );
-        await this.ctx.render(template, data);
-        // 如果改变了模板，恢复当前默认模板引擎
-        if (this.template_engine) {
-          this.template_engine = null;
-          app.context.render = null;
-          templates[template_engine].render(app);
-        }
-      } else {
-        this.ctx.body = '模板' + template + '.' + ext + '不存在';
-      }
     }
 
     public async redirect() {
