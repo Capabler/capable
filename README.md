@@ -10,6 +10,8 @@
 
 - 目前框架处于调整期，已经加入 socket 功能
 
+- 整体设计思路参考[CodeIgniter](https://github.com/bcit-ci/CodeIgniter)
+
 ### Setup
 
 ```

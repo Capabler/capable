@@ -66,7 +66,9 @@ export default (app: any) => {
       (global as IGlobal).emitter.on('close.database', () => {
         dbModels.map((item: any) => {
           dbNames.map((db: any) => {
-            (this as any)[item][db].sequelize.close();
+            if ((this as any)[item][db].sequelize) {
+              (this as any)[item][db].sequelize.close();
+            }
           });
         });
       });
