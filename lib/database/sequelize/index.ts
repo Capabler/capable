@@ -90,7 +90,7 @@ export default class extends Base {
     return this.query();
   }
 
-  public async insert(table = '', data: Object) {
+  public async insert(table = '', data = {}) {
     if (table === '') {
       throw 'insert的table不能为空';
     } else {
@@ -110,6 +110,14 @@ export default class extends Base {
         throw 'insert的数据不能为空';
       }
     }
+  }
+
+  public async insert_id(table = '', data = {}) {
+    if (table !== '' && Object.keys(data).length) {
+      await this.insert(table, data);
+    }
+    const sql = 'SELECT LAST_INSERT_ID()';
+    return this.__SELECT__(sql);
   }
 
   public async update(table = '', data: any) {
